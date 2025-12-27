@@ -31,6 +31,9 @@ Cada filtro possui uma cor única para facilitar o uso:
 ### 🔍 Destaque de Números
 Nos jogos gerados, os números que se repetem do sorteio anterior ficam destacados em **Laranja**, permitindo uma conferência rápida e visual.
 
+### 📱 Layout Adaptativo (Galaxy S23)
+O app foi otimizado para dispositivos modernos com entalhes (notch) e navegação por gestos, garantindo que as abas e o conteúdo nunca fiquem sobrepostos.
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
