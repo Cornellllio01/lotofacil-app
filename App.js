@@ -35,14 +35,15 @@ export default function App() {
             tabBarStyle: {
               backgroundColor: '#1d0c2e',
               borderTopColor: '#3c096c',
-              height: 85,
-              paddingBottom: 25,
-              paddingTop: 10,
+              height: 75,
             },
             tabBarLabelStyle: {
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: '600',
-              marginBottom: 8,
+              marginBottom: 12,
+            },
+            tabBarIconStyle: {
+              marginTop: 2,
             },
           })}
         >
