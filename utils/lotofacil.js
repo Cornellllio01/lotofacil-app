@@ -1,0 +1,93 @@
+
+export const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23];
+export const FIBONACCI = [1, 2, 3, 5, 8, 13, 21];
+
+/**
+ * Generates a random Lotofácil game (15 unique numbers from 1 to 25).
+ */
+export function generateGame() {
+    const numbers = [];
+    while (numbers.length < 15) {
+        const num = Math.floor(Math.random() * 25) + 1;
+        if (!numbers.includes(num)) {
+            numbers.push(num);
+        }
+    }
+    return numbers.sort((a, b) => a - b);
+}
+
+/**
+ * Counts how many numbers are repeated from the last result.
+ */
+export function countRepetitions(game, lastResult) {
+    if (!lastResult || lastResult.length === 0) return 0;
+    return game.filter(num => lastResult.includes(num)).length;
+}
+
+/**
+ * Counts even numbers.
+ */
+export function countEvens(game) {
+    return game.filter(num => num % 2 === 0).length;
+}
+
+/**
+ * Counts prime numbers.
+ */
+export function countPrimes(game) {
+    return game.filter(num => PRIMES.includes(num)).length;
+}
+
+/**
+ * Counts Fibonacci numbers.
+ */
+export function countFibonacci(game) {
+    return game.filter(num => FIBONACCI.includes(num)).length;
+}
+
+/**
+ * Finds the longest sequence of consecutive numbers.
+ */
+export function getLongestSequence(game) {
+    if (game.length === 0) return 0;
+    let maxSeq = 1;
+    let currentSeq = 1;
+    for (let i = 1; i < game.length; i++) {
+        if (game[i] === game[i - 1] + 1) {
+            currentSeq++;
+        } else {
+            maxSeq = Math.max(maxSeq, currentSeq);
+            currentSeq = 1;
+        }
+    }
+    return Math.max(maxSeq, currentSeq);
+}
+
+/**
+ * Checks if a game passes the "Gold Rules" based on user images.
+ */
+export function validateGame(game, lastResult, filters) {
+    const reps = countRepetitions(game, lastResult);
+    const evens = countEvens(game);
+    const primes = countPrimes(game);
+    const fib = countFibonacci(game);
+    const seq = getLongestSequence(game);
+
+    const results = {
+        repetitions: reps,
+        evens: evens,
+        primes: primes,
+        fibonacci: fib,
+        sequence: seq,
+        pass: true,
+        details: []
+    };
+
+    if (filters.repsEnabled && (reps < 8 || reps > 10)) results.pass = false;
+    if (filters.evensEnabled && (evens < 6 || evens > 8)) results.pass = false;
+    if (filters.primesEnabled && (primes < 4 || primes > 6)) results.pass = false;
+    if (filters.fibEnabled && (fib < 3 || fib > 5)) results.pass = false;
+    if (filters.seqEnabled && (seq < 3 || seq > 5)) results.pass = false;
+
+    return results;
+}
