@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import GeneratorScreen from './screens/GeneratorScreen';
 import ResultsScreen from './screens/ResultsScreen';
+import StatsScreen from './screens/StatsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,6 +13,7 @@ const TabIcon = ({ name, color, size }) => {
   const icons = {
     'Gerador': '🎲',
     'Resultados': '📊',
+    'Estatísticas': '📈',
   };
   return <Text style={{ fontSize: size, color }}>{icons[name] || '❓'}</Text>;
 };
@@ -61,6 +63,11 @@ export default function App() {
               />
             )}
           </Tab.Screen>
+          <Tab.Screen
+            name="Estatísticas"
+            component={StatsScreen}
+            options={{ headerShown: false }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

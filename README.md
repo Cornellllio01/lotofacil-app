@@ -8,10 +8,17 @@ Recentemente o app passou por uma grande evolução! Agora ele conta com:
 
 ### 📱 Navegação por Abas
 - **Gerador**: Área para criar seus palpites com filtros avançados.
-- **Resultados**: Consulta em tempo real aos últimos 5 sorteios oficiais da Caixa.
+- **Resultados**: Consulta em tempo real aos últimos 5 sorteios oficiais.
+- **Estatísticas**: Ranking de frequência dos números nos últimos 7 concursos.
 
 ### 🟡 Repetidas Automáticas
-O app agora busca o último resultado oficial e preenche automaticamente o filtro de repetidas, sincronizando os dados entre as abas.
+O app busca o último resultado oficial e preenche automaticamente o filtro de repetidas, sincronizando os dados entre as abas.
+
+### 📈 Ranking de Frequência (Novo!)
+Analise quais números estão "quentes" ou "frios":
+- **Mapa de Calor**: Identifica visualmente os números que mais saíram.
+- **Análise de 7 Concursos**: Base estatística sólida para seus próximos jogos.
+- **Ranking Ordenado**: Do mais frequente ao menos frequente.
 
 ### 🎨 Filtros "Padrões de Ouro" Coloridos
 Cada filtro possui uma cor única para facilitar o uso:
