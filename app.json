@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "lotofacil-app",
-    "slug": "lotofacil-app",
+    "name": "LotoFácil Pro",
+    "slug": "lotofacil-pro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,10 +20,22 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.cornellllio.lotofacilpro"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0dee6d4a-f22d-49a4-b431-39dfe6c2a8e1"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0dee6d4a-f22d-49a4-b431-39dfe6c2a8e1"
     }
   }
 }

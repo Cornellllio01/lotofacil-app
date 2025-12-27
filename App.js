@@ -35,8 +35,8 @@ export default function App() {
             tabBarStyle: {
               backgroundColor: '#1d0c2e',
               borderTopColor: '#3c096c',
-              height: 60,
-              paddingBottom: 10,
+              paddingTop: 5,
+              paddingBottom: 5,
             },
           })}
         >

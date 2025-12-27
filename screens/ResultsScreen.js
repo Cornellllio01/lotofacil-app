@@ -7,7 +7,8 @@ import {
     ActivityIndicator,
     RefreshControl,
     TouchableOpacity,
-    Alert
+    Alert,
+    SafeAreaView
 } from 'react-native';
 
 export default function ResultsScreen({ setSharedLastResult }) {
@@ -74,57 +75,59 @@ export default function ResultsScreen({ setSharedLastResult }) {
     }
 
     return (
-        <ScrollView
-            contentContainerStyle={styles.container}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#ff9100" />
-            }
-        >
-            <View style={styles.header}>
-                <Text style={styles.title}>Últimos Resultados</Text>
-                <Text style={styles.subtitle}>Acompanhe os sorteios oficiais</Text>
-            </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#0f021a' }}>
+            <ScrollView
+                contentContainerStyle={styles.container}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#ff9100" />
+                }
+            >
+                <View style={styles.header}>
+                    <Text style={styles.title}>Últimos Resultados</Text>
+                    <Text style={styles.subtitle}>Acompanhe os sorteios oficiais</Text>
+                </View>
 
-            {results.map((item, index) => (
-                <View key={item.concurso || index} style={styles.resultCard}>
-                    <View style={styles.cardHeader}>
-                        <Text style={styles.concursoText}>Concurso {item.concurso}</Text>
-                        <Text style={styles.dateText}>{item.data}</Text>
-                    </View>
-
-                    <View style={styles.numbersGrid}>
-                        {item.dezenas && item.dezenas.map((num) => (
-                            <View key={num} style={styles.ball}>
-                                <Text style={styles.ballText}>{num}</Text>
-                            </View>
-                        ))}
-                    </View>
-
-                    {item.acumulou && (
-                        <View style={styles.accumulatedBadge}>
-                            <Text style={styles.accumulatedText}>ACUMULOU!</Text>
+                {results.map((item, index) => (
+                    <View key={item.concurso || index} style={styles.resultCard}>
+                        <View style={styles.cardHeader}>
+                            <Text style={styles.concursoText}>Concurso {item.concurso}</Text>
+                            <Text style={styles.dateText}>{item.data}</Text>
                         </View>
-                    )}
 
-                    <TouchableOpacity
-                        style={styles.useResultButton}
-                        onPress={() => {
-                            const formatted = item.dezenas.join(' ');
-                            setSharedLastResult(formatted);
-                            Alert.alert('Sucesso', `Concurso ${item.concurso} enviado para o gerador!`);
-                        }}
-                    >
-                        <Text style={styles.useResultButtonText}>USAR NO GERADOR</Text>
-                    </TouchableOpacity>
-                </View>
-            ))}
+                        <View style={styles.numbersGrid}>
+                            {item.dezenas && item.dezenas.map((num) => (
+                                <View key={num} style={styles.ball}>
+                                    <Text style={styles.ballText}>{num}</Text>
+                                </View>
+                            ))}
+                        </View>
 
-            {results.length === 0 && !loading && (
-                <View style={styles.placeholderCard}>
-                    <Text style={styles.placeholderText}>Nenhum resultado encontrado.</Text>
-                </View>
-            )}
-        </ScrollView>
+                        {item.acumulou && (
+                            <View style={styles.accumulatedBadge}>
+                                <Text style={styles.accumulatedText}>ACUMULOU!</Text>
+                            </View>
+                        )}
+
+                        <TouchableOpacity
+                            style={styles.useResultButton}
+                            onPress={() => {
+                                const formatted = item.dezenas.join(' ');
+                                setSharedLastResult(formatted);
+                                Alert.alert('Sucesso', `Concurso ${item.concurso} enviado para o gerador!`);
+                            }}
+                        >
+                            <Text style={styles.useResultButtonText}>USAR NO GERADOR</Text>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+
+                {results.length === 0 && !loading && (
+                    <View style={styles.placeholderCard}>
+                        <Text style={styles.placeholderText}>Nenhum resultado encontrado.</Text>
+                    </View>
+                )}
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 

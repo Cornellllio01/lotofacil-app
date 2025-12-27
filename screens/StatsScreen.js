@@ -7,7 +7,8 @@ import {
     ActivityIndicator,
     RefreshControl,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    SafeAreaView
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -110,67 +111,69 @@ export default function StatsScreen() {
     }
 
     return (
-        <ScrollView
-            contentContainerStyle={styles.container}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#ff9100" />
-            }
-        >
-            <View style={styles.header}>
-                <Text style={styles.title}>Frequência</Text>
-                <Text style={styles.subtitle}>Ranking dos últimos 7 sorteios</Text>
-                {contestRange.start && (
-                    <View style={styles.rangeBadge}>
-                        <Text style={styles.rangeText}>
-                            Concursos {contestRange.start} até {contestRange.end}
-                        </Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#0f021a' }}>
+            <ScrollView
+                contentContainerStyle={styles.container}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#ff9100" />
+                }
+            >
+                <View style={styles.header}>
+                    <Text style={styles.title}>Frequência</Text>
+                    <Text style={styles.subtitle}>Ranking dos últimos 7 sorteios</Text>
+                    {contestRange.start && (
+                        <View style={styles.rangeBadge}>
+                            <Text style={styles.rangeText}>
+                                Concursos {contestRange.start} até {contestRange.end}
+                            </Text>
+                        </View>
+                    )}
+                </View>
+
+                <View style={styles.legend}>
+                    <View style={styles.legendItem}>
+                        <View style={[styles.dot, { backgroundColor: '#ff4d4d' }]} />
+                        <Text style={styles.legendText}>Quentes</Text>
                     </View>
-                )}
-            </View>
+                    <View style={styles.legendItem}>
+                        <View style={[styles.dot, { backgroundColor: '#ffb703' }]} />
+                        <Text style={styles.legendText}>Médios</Text>
+                    </View>
+                    <View style={styles.legendItem}>
+                        <View style={[styles.dot, { backgroundColor: '#219ebc' }]} />
+                        <Text style={styles.legendText}>Frios</Text>
+                    </View>
+                </View>
 
-            <View style={styles.legend}>
-                <View style={styles.legendItem}>
-                    <View style={[styles.dot, { backgroundColor: '#ff4d4d' }]} />
-                    <Text style={styles.legendText}>Quentes</Text>
-                </View>
-                <View style={styles.legendItem}>
-                    <View style={[styles.dot, { backgroundColor: '#ffb703' }]} />
-                    <Text style={styles.legendText}>Médios</Text>
-                </View>
-                <View style={styles.legendItem}>
-                    <View style={[styles.dot, { backgroundColor: '#219ebc' }]} />
-                    <Text style={styles.legendText}>Frios</Text>
-                </View>
-            </View>
+                <View style={styles.rankingCard}>
+                    {frequencies.map((item, index) => (
+                        <View key={item.number} style={styles.rankItem}>
+                            <View style={styles.rankLeft}>
+                                <Text style={styles.positionText}>{index + 1}º</Text>
+                                <View style={[styles.numberBall, { backgroundColor: getIntensityColor(item.count) }]}>
+                                    <Text style={styles.numberBallText}>{item.number.toString().padStart(2, '0')}</Text>
+                                </View>
+                            </View>
 
-            <View style={styles.rankingCard}>
-                {frequencies.map((item, index) => (
-                    <View key={item.number} style={styles.rankItem}>
-                        <View style={styles.rankLeft}>
-                            <Text style={styles.positionText}>{index + 1}º</Text>
-                            <View style={[styles.numberBall, { backgroundColor: getIntensityColor(item.count) }]}>
-                                <Text style={styles.numberBallText}>{item.number.toString().padStart(2, '0')}</Text>
+                            <View style={styles.rankRight}>
+                                <View style={styles.progressBarBg}>
+                                    <View
+                                        style={[
+                                            styles.progressBarFill,
+                                            {
+                                                width: `${(item.count / 7) * 100}%`,
+                                                backgroundColor: getIntensityColor(item.count)
+                                            }
+                                        ]}
+                                    />
+                                </View>
+                                <Text style={styles.countText}>{item.count}x ({item.percentage}%)</Text>
                             </View>
                         </View>
-
-                        <View style={styles.rankRight}>
-                            <View style={styles.progressBarBg}>
-                                <View
-                                    style={[
-                                        styles.progressBarFill,
-                                        {
-                                            width: `${(item.count / 7) * 100}%`,
-                                            backgroundColor: getIntensityColor(item.count)
-                                        }
-                                    ]}
-                                />
-                            </View>
-                            <Text style={styles.countText}>{item.count}x ({item.percentage}%)</Text>
-                        </View>
-                    </View>
-                ))}
-            </View>
-        </ScrollView>
+                    ))}
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 

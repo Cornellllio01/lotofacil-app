@@ -8,7 +8,8 @@ import {
     TextInput,
     Dimensions,
     Clipboard,
-    Alert
+    Alert,
+    SafeAreaView
 } from 'react-native';
 import {
     generateGame,
@@ -109,104 +110,106 @@ export default function GeneratorScreen({ lastResult, setLastResult }) {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-            <View style={styles.header}>
-                <Text style={styles.title}>LotoFácil Pro</Text>
-                <Text style={styles.subtitle}>Gerador Inteligente de Jogos</Text>
-            </View>
-
-            <View style={styles.card}>
-                <Text style={styles.cardTitle}>Resultado Anterior</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Ex: 01 02 05 08..."
-                    placeholderTextColor="#888"
-                    value={lastResult}
-                    onChangeText={setLastResult}
-                    keyboardType="numeric"
-                />
-                <Text style={styles.helperText}>Use espaços ou vírgulas para separar os números.</Text>
-            </View>
-
-            <View style={styles.filterSection}>
-                <Text style={styles.sectionTitle}>Filtros Ativos (Padrões de Ouro)</Text>
-                <View style={styles.filterGrid}>
-                    <FilterBadge active={filters.repsEnabled} label="Repetidas (8-10)" onPress={() => toggleFilter('repsEnabled')} color="#ffb703" />
-                    <FilterBadge active={filters.evensEnabled} label="Pares (6-8)" onPress={() => toggleFilter('evensEnabled')} color="#219ebc" />
-                    <FilterBadge active={filters.primesEnabled} label="Primos (4-6)" onPress={() => toggleFilter('primesEnabled')} color="#06d6a0" />
-                    <FilterBadge active={filters.fibEnabled} label="Fibonacci (3-5)" onPress={() => toggleFilter('fibEnabled')} color="#ef476f" />
-                    <FilterBadge active={filters.seqEnabled} label="Sequências (3-5)" onPress={() => toggleFilter('seqEnabled')} color="#fb8500" />
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#0f021a' }}>
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>LotoFácil Pro</Text>
+                    <Text style={styles.subtitle}>Gerador Inteligente de Jogos</Text>
                 </View>
-            </View>
 
-            <TouchableOpacity
-                style={[styles.generateButton, loading && styles.disabledButton]}
-                onPress={handleGenerate}
-                disabled={loading}
-            >
-                <Text style={styles.generateButtonText}>{loading ? 'Analisando...' : 'GERAR JOGOS FILTRADOS'}</Text>
-            </TouchableOpacity>
-
-            <View style={styles.resultsHeader}>
-                <Text style={styles.sectionTitle}>Sugestões de Jogos</Text>
-                {generatedGames.length === 0 && !loading && (
-                    <Text style={styles.emptyText}>Clique em Gerar para ver os palpites baseados em seus filtros.</Text>
-                )}
-            </View>
-
-            {generatedGames.map((item, index) => (
-                <View key={index} style={styles.gameCard}>
-                    <View style={styles.debugBadge}>
-                        <Text style={styles.debugText}>Jogo {index + 1}</Text>
-                    </View>
-
-                    <View style={styles.gameNumberRow}>
-                        {item.numbers.slice(0, 15).map(num => {
-                            const isRepeated = lastResultArr.includes(num);
-                            return (
-                                <View
-                                    key={num}
-                                    style={[
-                                        styles.ball,
-                                        isRepeated && { backgroundColor: '#ffb703' }
-                                    ]}
-                                >
-                                    <Text style={[
-                                        styles.ballText,
-                                        isRepeated && { color: '#000' }
-                                    ]}>
-                                        {num.toString().padStart(2, '0')}
-                                    </Text>
-                                </View>
-                            );
-                        })}
-                    </View>
-                    <View style={styles.gameStatsRow}>
-                        <StatLabel label="Reps" value={item.stats.reps} color="#ffb703" />
-                        <StatLabel label="Pares" value={item.stats.pares} color="#219ebc" />
-                        <StatLabel label="Primos" value={item.stats.primos} color="#06d6a0" />
-                        <StatLabel label="Fib" value={item.stats.fib} color="#ef476f" />
-                        <StatLabel label="Seq" value={item.stats.seq} color="#fb8500" />
-                    </View>
-
-                    <TouchableOpacity
-                        style={styles.copyButton}
-                        onPress={() => copyGame(item.numbers)}
-                    >
-                        <Text style={styles.copyButtonText}>📋 Copiar Jogo</Text>
-                    </TouchableOpacity>
+                <View style={styles.card}>
+                    <Text style={styles.cardTitle}>Resultado Anterior</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Ex: 01 02 05 08..."
+                        placeholderTextColor="#888"
+                        value={lastResult}
+                        onChangeText={setLastResult}
+                        keyboardType="numeric"
+                    />
+                    <Text style={styles.helperText}>Use espaços ou vírgulas para separar os números.</Text>
                 </View>
-            ))}
 
-            {generatedGames.length > 0 && (
+                <View style={styles.filterSection}>
+                    <Text style={styles.sectionTitle}>Filtros Ativos (Padrões de Ouro)</Text>
+                    <View style={styles.filterGrid}>
+                        <FilterBadge active={filters.repsEnabled} label="Repetidas (8-10)" onPress={() => toggleFilter('repsEnabled')} color="#ffb703" />
+                        <FilterBadge active={filters.evensEnabled} label="Pares (6-8)" onPress={() => toggleFilter('evensEnabled')} color="#219ebc" />
+                        <FilterBadge active={filters.primesEnabled} label="Primos (4-6)" onPress={() => toggleFilter('primesEnabled')} color="#06d6a0" />
+                        <FilterBadge active={filters.fibEnabled} label="Fibonacci (3-5)" onPress={() => toggleFilter('fibEnabled')} color="#ef476f" />
+                        <FilterBadge active={filters.seqEnabled} label="Sequências (3-5)" onPress={() => toggleFilter('seqEnabled')} color="#fb8500" />
+                    </View>
+                </View>
+
                 <TouchableOpacity
-                    style={styles.copyAllButton}
-                    onPress={copyAllGames}
+                    style={[styles.generateButton, loading && styles.disabledButton]}
+                    onPress={handleGenerate}
+                    disabled={loading}
                 >
-                    <Text style={styles.copyAllButtonText}>📋 Copiar Todos os Jogos ({generatedGames.length})</Text>
+                    <Text style={styles.generateButtonText}>{loading ? 'Analisando...' : 'GERAR JOGOS FILTRADOS'}</Text>
                 </TouchableOpacity>
-            )}
-        </ScrollView>
+
+                <View style={styles.resultsHeader}>
+                    <Text style={styles.sectionTitle}>Sugestões de Jogos</Text>
+                    {generatedGames.length === 0 && !loading && (
+                        <Text style={styles.emptyText}>Clique em Gerar para ver os palpites baseados em seus filtros.</Text>
+                    )}
+                </View>
+
+                {generatedGames.map((item, index) => (
+                    <View key={index} style={styles.gameCard}>
+                        <View style={styles.debugBadge}>
+                            <Text style={styles.debugText}>Jogo {index + 1}</Text>
+                        </View>
+
+                        <View style={styles.gameNumberRow}>
+                            {item.numbers.slice(0, 15).map(num => {
+                                const isRepeated = lastResultArr.includes(num);
+                                return (
+                                    <View
+                                        key={num}
+                                        style={[
+                                            styles.ball,
+                                            isRepeated && { backgroundColor: '#ffb703' }
+                                        ]}
+                                    >
+                                        <Text style={[
+                                            styles.ballText,
+                                            isRepeated && { color: '#000' }
+                                        ]}>
+                                            {num.toString().padStart(2, '0')}
+                                        </Text>
+                                    </View>
+                                );
+                            })}
+                        </View>
+                        <View style={styles.gameStatsRow}>
+                            <StatLabel label="Reps" value={item.stats.reps} color="#ffb703" />
+                            <StatLabel label="Pares" value={item.stats.pares} color="#219ebc" />
+                            <StatLabel label="Primos" value={item.stats.primos} color="#06d6a0" />
+                            <StatLabel label="Fib" value={item.stats.fib} color="#ef476f" />
+                            <StatLabel label="Seq" value={item.stats.seq} color="#fb8500" />
+                        </View>
+
+                        <TouchableOpacity
+                            style={styles.copyButton}
+                            onPress={() => copyGame(item.numbers)}
+                        >
+                            <Text style={styles.copyButtonText}>📋 Copiar Jogo</Text>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+
+                {generatedGames.length > 0 && (
+                    <TouchableOpacity
+                        style={styles.copyAllButton}
+                        onPress={copyAllGames}
+                    >
+                        <Text style={styles.copyAllButtonText}>📋 Copiar Todos os Jogos ({generatedGames.length})</Text>
+                    </TouchableOpacity>
+                )}
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
