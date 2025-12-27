@@ -14,6 +14,7 @@ const { width } = Dimensions.get('window');
 
 export default function StatsScreen() {
     const [frequencies, setFrequencies] = useState([]);
+    const [contestRange, setContestRange] = useState({ start: null, end: null });
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(null);
@@ -46,6 +47,14 @@ export default function StatsScreen() {
             prevResultsData.forEach(res => {
                 if (res && res.dezenas) allResults.push(res.dezenas);
             });
+
+            // Update contest range
+            if (allResults.length > 0) {
+                setContestRange({
+                    start: latestConcurso - (allResults.length - 1),
+                    end: latestConcurso
+                });
+            }
 
             // 4. Calculate frequencies
             const freqMap = {};
@@ -110,6 +119,13 @@ export default function StatsScreen() {
             <View style={styles.header}>
                 <Text style={styles.title}>Frequência</Text>
                 <Text style={styles.subtitle}>Ranking dos últimos 7 sorteios</Text>
+                {contestRange.start && (
+                    <View style={styles.rangeBadge}>
+                        <Text style={styles.rangeText}>
+                            Concursos {contestRange.start} até {contestRange.end}
+                        </Text>
+                    </View>
+                )}
             </View>
 
             <View style={styles.legend}>
@@ -189,6 +205,20 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#9d4edd',
         marginTop: 5,
+    },
+    rangeBadge: {
+        marginTop: 10,
+        backgroundColor: 'rgba(255, 145, 0, 0.1)',
+        paddingHorizontal: 12,
+        paddingVertical: 5,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 145, 0, 0.3)',
+    },
+    rangeText: {
+        fontSize: 12,
+        color: '#ff9100',
+        fontWeight: 'bold',
     },
     legend: {
         flexDirection: 'row',
